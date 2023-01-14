@@ -1,29 +1,15 @@
 use std::fs::File;
 use std::io::prelude::*;
 
+use arguments::Arguments;
 use clap::Parser;
 use highlight::pretty_print_html;
 
+mod arguments;
 mod highlight;
 
-#[derive(clap::Parser)]
-#[clap(version, author, about = "Downloads a webpage")]
-struct Args {
-    /// The URL of the webpage to download
-    #[clap(required = true)]
-    url: String,
-
-    /// File to save the downloaded webpage to
-    #[clap(short, long)]
-    output: Option<String>,
-
-    /// Activate syntax highlighting
-    #[clap(short, long, default_value_t = false)]
-    prettify: bool,
-}
-
 fn main() -> anyhow::Result<()> {
-    let args = Args::parse();
+    let args = Arguments::parse();
 
     let response = reqwest::blocking::get(&args.url)?;
     let text = response.text()?;

@@ -16,17 +16,12 @@ pub fn pretty_print_html(html: &str) -> anyhow::Result<String> {
         html,
         &syntax_set,
         html_syntax,
-        &theme,
+        theme,
     )?)
 }
 
 #[allow(unused)]
 pub fn get_theme_names() -> Vec<String> {
     let theme_set = ThemeSet::load_defaults();
-    theme_set
-        .themes
-        .iter()
-        .map(|(name, _theme)| name)
-        .cloned()
-        .collect()
+    theme_set.themes.keys().cloned().collect()
 }
